@@ -5,24 +5,38 @@ import TodoInterface from '../TodoInterface'
 
 
 interface Props {
-    todos: TodoInterface[];
-    setTodos(todo: TodoInterface[]): void;
+    
+    addTodo(todo: string): void;
 }
 
 
 
 
-export const Form: React.FC<Props> = ({ todos, setTodos }) => {
+
+export const Form: React.FC<Props> = ({ addTodo }) => {
 
 
-    const [todoDescription, setTodoDescription] = useState<string>("")
+    const [todo, setTodo] = useState<string>("")
     const [message, setMessage] = useState<string>("")
 
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        !todoDescription ? setMessage("Write a task first") : setMessage("")
+        !todo ? setMessage("Write a task first") : setMessage("")
+
+
+
+
+        addTodo(todo)
+        setTodo("")
+
+
     }
+
+
+
+
+
 
 
 
@@ -33,8 +47,8 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
                     <input
                         type="text"
                         placeholder='Enter your task here'
-                        value={todoDescription}
-                        onChange={(e) => setTodoDescription(e.target.value)}
+                        value={todo}
+                        onChange={(e) => setTodo(e.target.value)}
                     />
                     <button type='submit'>Add</button>
                     <p>{message}</p>
