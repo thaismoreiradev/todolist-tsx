@@ -1,6 +1,6 @@
 export const Footer = () => (
 
-    <footer className="text-xs text-center text-slate-800 pb-2">
+    <footer className="text-xs text-center text-lime-50 pb-2">
         <p>
             <a
                 href="https://github.com/thaismoreiradev"
