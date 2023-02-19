@@ -1,29 +1,38 @@
 import React, { FormEvent, useState } from 'react'
+import TodoInterface from '../TodoInterface'
 
 
 
 interface Props {
-    addTodo(todo: string): void;
+    todos: TodoInterface[],
+    setTodos: React.Dispatch<React.SetStateAction<TodoInterface[]>>
 }
 
 
+export const Form: React.FC<Props> = ({ todos, setTodos }) => {
 
 
+    const [todoText, setTodoText] = useState<string>("")
+    
 
-export const Form: React.FC<Props> = ({ addTodo }) => {
+    const addTodo = (todo: string): void => {
+        const data: TodoInterface = {
+            id: todos.length < 1 ? 1 : todos[todos.length - 1].id + 1,
+            text: todo,
+            completed: false,
+        }
 
+        setTodos((prevTodos: TodoInterface[]): TodoInterface[] => [...prevTodos, data])        
+    }
 
-    const [todo, setTodo] = useState<string>("")
-    const [message, setMessage] = useState<string>("")
 
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        !todo ? setMessage("You need to write a task") : setMessage("")
-
-        addTodo(todo)
-        setTodo("")
+        addTodo(todoText)
+        setTodoText("")
     }
+
 
 
 
@@ -32,14 +41,16 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
         <div>
             <form
                 onSubmit={handleSubmit}
-                className='flex mb-1'
+                className='flex my-2'
+
             >
 
                 <input
+                    required
                     type="text"
                     placeholder='Enter your task here'
-                    value={todo}
-                    onChange={(e) => setTodo(e.target.value)}
+                    value={todoText}
+                    onChange={(e) => setTodoText(e.target.value)}
                     className='w-full mr-2 rounded-sm p-1 text-emerald-900 bg-lime-50'
                 />
                 <button
@@ -47,7 +58,7 @@ export const Form: React.FC<Props> = ({ addTodo }) => {
                     className='bg-zinc-800 text-lime-50 rounded-sm py-1 px-2'
                 >Add</button>
             </form>
-            <p className='text-center text-red-300 text-xs pt-1'>{message}</p>
+            
 
 
 

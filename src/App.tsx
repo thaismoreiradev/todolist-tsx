@@ -6,56 +6,8 @@ import { List } from './components/List'
 
 function App() {
 
-  const [todos, setTodos] = useState<TodoInterface[]>([
-    {
-      id: 1,
-      text: "testing the code",
-      completed: false
-    }
-  ])
+  const [todos, setTodos] = useState<TodoInterface[]>([])
 
-
-
-
-
-
-  const addTodo = (todo: string): void => {
-
-    const data: TodoInterface = {
-      id: todos.length < 1 ? 1 : todos[todos.length - 1].id + 1,
-      text: todo,
-      completed: false,
-    }
-
-
-
-    setTodos((prevTodos: TodoInterface[]): TodoInterface[] => [...prevTodos, data])
-    window.alert("todo added")
-  }
-
-
-  const completeTodo = (id: number): void => {
-
-    const currentTodo: any = todos.find((todo: TodoInterface) => todo.id === id);
-    currentTodo.completed = !currentTodo.completed;
-
-    const updatedTodos: TodoInterface[] = todos.map(
-      (todo: TodoInterface): TodoInterface =>
-        (todo.id === id ? currentTodo : todo))
-
-    setTodos(updatedTodos)
-   }
-
-
-
-  const deleteTodo = (id: number): void => {
-    const updatedTodos: TodoInterface[] = todos.filter(
-      (todo: TodoInterface): any => todo.id !== id
-    );
-
-    setTodos(updatedTodos)
-    window.alert("deleted")
-  }
 
 
 
@@ -70,13 +22,13 @@ function App() {
         
         <div className='w-full max-w-md'>
           <Form
-            addTodo={addTodo}
+            todos={todos}
+            setTodos={setTodos}
           />
 
           <List
             todos={todos}
-            completeTodo={completeTodo}
-            deleteTodo={deleteTodo}
+            setTodos={setTodos}                   
           />
 
         </div>
