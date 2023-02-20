@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TodoInterface from '../TodoInterface'
 import { ListItem } from './ListItem'
 
@@ -10,29 +10,25 @@ interface Props {
 }
 
 
-
-export const List: React.FC<Props> = ({ todos, setTodos}) => {
-
-
+export const List: React.FC<Props> = ({ todos, setTodos }) => {
 
 
 
   return (
+
     <div className='bg-emerald-800 flex flex-col gap-[1px]'>
 
       {
-
         todos.map((todo: TodoInterface): any => (
           <ListItem
-          key={todo.id}
-          todo={todo}
-          todos={todos}
-          setTodos={setTodos}
+            key={todo.id}
+            todo={todo}
+            todos={todos}
+            setTodos={setTodos}
           />
         ))
 
       }
-
 
     </div>
   )

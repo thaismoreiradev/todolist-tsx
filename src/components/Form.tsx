@@ -13,7 +13,7 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
 
 
     const [todoText, setTodoText] = useState<string>("")
-    
+
 
     const addTodo = (todo: string): void => {
         const data: TodoInterface = {
@@ -21,8 +21,7 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
             text: todo,
             completed: false,
         }
-
-        setTodos((prevTodos: TodoInterface[]): TodoInterface[] => [...prevTodos, data])        
+        setTodos((prevTodos: TodoInterface[]): TodoInterface[] => [...prevTodos, data])
     }
 
 
@@ -41,10 +40,8 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
         <div>
             <form
                 onSubmit={handleSubmit}
-                className='flex my-2'
-
+                className='flex my-2 sm:mb-4'
             >
-
                 <input
                     required
                     type="text"
@@ -58,11 +55,6 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
                     className='bg-zinc-800 text-lime-50 rounded-sm py-1 px-2'
                 >Add</button>
             </form>
-            
-
-
-
         </div>
-
     )
 }
