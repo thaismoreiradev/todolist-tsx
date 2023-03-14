@@ -1,5 +1,8 @@
-import React, { FormEvent, useState } from 'react'
+import axios from 'axios'
+import React, { FormEvent, useEffect, useState } from 'react'
 import TodoInterface from '../TodoInterface'
+
+
 
 
 
@@ -12,11 +15,16 @@ interface Props {
 export const Form: React.FC<Props> = ({ todos, setTodos }) => {
 
 
+
+    let data: TodoInterface
     const [todoText, setTodoText] = useState<string>("")
 
 
+
+
+
     const addTodo = (todo: string): void => {
-        const data: TodoInterface = {
+        data = {
             id: todos.length < 1 ? 1 : todos[todos.length - 1].id + 1,
             text: todo,
             completed: false,
@@ -30,8 +38,16 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
         e.preventDefault();
         addTodo(todoText)
         setTodoText("")
-    }
 
+        const postTodo = async () => {
+            try {
+                const result = await axios.post("http://localhost:8000/api/", data)                
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        postTodo()
+    }
 
 
 
@@ -48,11 +64,11 @@ export const Form: React.FC<Props> = ({ todos, setTodos }) => {
                     placeholder='Enter your task here'
                     value={todoText}
                     onChange={(e) => setTodoText(e.target.value)}
-                    className='w-full mr-2 rounded-sm p-1 text-emerald-900 bg-lime-50'
+                    className='w-full mr-2 rounded-sm p-1 text-rose-900 bg-rose-50'
                 />
                 <button
                     type='submit'
-                    className='bg-zinc-800 text-lime-50 rounded-sm py-1 px-2'
+                    className='bg-zinc-800 text-rose-50 rounded-sm py-1 px-2'
                 >Add</button>
             </form>
         </div>

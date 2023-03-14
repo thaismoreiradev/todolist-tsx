@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BsCheckLg, BsPencilSquare, BsTrashFill } from 'react-icons/bs'
 import TodoInterface from '../TodoInterface'
+import axios from 'axios'
 
 
 
@@ -15,8 +16,23 @@ interface Props {
 export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
 
 
+
     const [editing, setEditing] = useState<boolean>(false)
     const [editedTodoText, setEditedTodoText] = useState<string>("")
+
+
+
+    const updateData = async (editedTodo: TodoInterface) => {
+        try {
+            await axios.put(`http://localhost:8000/api/put/${todo.id}`, editedTodo)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+
+
+
 
 
 
@@ -30,7 +46,14 @@ export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
                 (todo.id === id ? currentTodo : todo))
 
         setTodos(updatedTodos)
+        updateData({
+            id: todo.id,
+            text: todo.text,
+            completed: currentTodo.completed
+        })
     }
+
+
 
 
 
@@ -45,16 +68,23 @@ export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
                 (todo.id === id ? currentTodo : todo))
 
         setTodos(updatedTodos)
+        updateData({
+            id: todo.id,
+            text: editedTodoText,
+            completed: todo.completed
+        })
+
     }
 
 
 
 
-    const deleteTodo = (id: number): void => {
 
+    const deleteTodo = async (id: number) => {
         const updatedTodos: TodoInterface[] = todos.filter(
             (todo: TodoInterface): any => todo.id !== id);
         setTodos(updatedTodos)
+        await axios.delete(`http://localhost:8000/api/delete/${todo.id}`)
     }
 
 
@@ -62,7 +92,7 @@ export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
 
     return (
 
-        <div className='bg-emerald-900 flex justify-between py-1 text-lime-50'>
+        <div className='bg-rose-900 flex justify-between py-1 text-rose-50'>
 
 
             {editing === true ?
@@ -70,7 +100,7 @@ export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
                 <div className='flex items-center justify-between w-full'>
 
                     <input
-                        className='rounded-sm p-1 text-lime-50 bg-emerald-800 w-full break-all'
+                        className='rounded-sm p-1 text-lime-50 bg-rose-800 w-full break-all'
                         value={editedTodoText}
                         onChange={(e) => setEditedTodoText(e.target.value)}
                     ></input>
@@ -91,7 +121,7 @@ export const ListItem: React.FC<Props> = ({ todo, todos, setTodos }) => {
 
                 </div> :
 
-                <h2 className={`${todo.completed ? "line-through text-lime-300 break-all" : "break-all"}`}>
+                <h2 className={`${todo.completed ? "line-through text-rose-300 break-all" : "break-all"}`}>
                     {todo.text}</h2>
             }
 
